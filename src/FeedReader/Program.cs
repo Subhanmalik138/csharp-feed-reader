@@ -36,6 +36,9 @@ public static class Program
                 "unstar" => SetStarred(store, cmdArgs, starred: false),
                 "search" => Search(store, cmdArgs),
                 "stats" => Stats(store),
+                "import-opml" => OpmlCommands.Import(store, cmdArgs),
+                "export-opml" => OpmlCommands.Export(store, cmdArgs),
+                "export" => ItemExporter.Export(store, cmdArgs),
                 _ => Unknown(command)
             };
         }
