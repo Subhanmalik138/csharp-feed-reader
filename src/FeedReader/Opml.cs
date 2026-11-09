@@ -39,9 +39,10 @@ public static class OpmlCommands
             {
                 Url = o.Attribute("xmlUrl")!.Value.Trim(),
                 Title = o.Attribute("title")?.Value?.Trim() ?? o.Attribute("text")?.Value?.Trim(),
-                Category = o.Ancestors("outline")
-                    .Select(a => a.Attribute("text")?.Value)
-                    .FirstOrDefault(t => !string.IsNullOrWhiteSpace(t))
+                Category = o.Attribute("category")?.Value?.Trim()
+                    ?? o.Ancestors("outline")
+                        .Select(a => a.Attribute("text")?.Value)
+                        .FirstOrDefault(t => !string.IsNullOrWhiteSpace(t))
             })
             .Where(o => o.Url.Length > 0)
             .ToList();

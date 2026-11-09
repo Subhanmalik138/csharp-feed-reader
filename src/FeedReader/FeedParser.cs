@@ -186,7 +186,10 @@ public static class FeedParser
             return null;
         }
 
-        var withoutTags = Regex.Replace(html, "<[^>]+>", " ");
+        // Block-level closers become a space so paragraphs don't run together;
+        // inline tags are removed outright so "markup</em>." stays "markup."
+        var withBreaks = Regex.Replace(html, @"</(p|div|li|h[1-6]|tr|br|hr)\b[^>]*>", " ", RegexOptions.IgnoreCase);
+        var withoutTags = Regex.Replace(withBreaks, "<[^>]+>", "");
         var decoded = WebUtility.HtmlDecode(withoutTags);
         var collapsed = Regex.Replace(decoded, @"\s+", " ").Trim();
         return collapsed.Length == 0 ? null : collapsed[..Math.Min(collapsed.Length, 2000)];
