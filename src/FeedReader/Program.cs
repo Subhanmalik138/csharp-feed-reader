@@ -304,7 +304,7 @@ public static class Program
 
     // -- Helpers ------------------------------------------------------------
 
-    private static (string? DataPath, string[] Rest) ExtractDataOption(string[] args)
+    private static (string? DataPath, string[] Remaining) ExtractDataOption(string[] args)
     {
         var rest = new List<string>();
         string? dataPath = null;
@@ -346,12 +346,12 @@ public static class Program
     {
         DateTimeOffset? since = null;
         var sinceRaw = Option(args, "--since");
-        if (sinceRaw is not null && !DateTimeOffset.TryParse(sinceRaw, out var parsed))
+        if (sinceRaw is not null)
         {
-            throw new ArgumentException($"Cannot parse --since date: {sinceRaw}");
-        }
-        else if (sinceRaw is not null)
-        {
+            if (!DateTimeOffset.TryParse(sinceRaw, out var parsed))
+            {
+                throw new ArgumentException($"Cannot parse --since date: {sinceRaw}");
+            }
             since = parsed;
         }
 

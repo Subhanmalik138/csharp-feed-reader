@@ -1,7 +1,7 @@
 namespace FeedReader;
 
 /// <summary>Filter options for listing and searching items.</summary>
-public sealed class ItemQuery
+public sealed record ItemQuery
 {
     public string? FeedId { get; init; }
     public bool UnreadOnly { get; init; }
